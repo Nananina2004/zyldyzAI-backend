@@ -3,7 +3,7 @@ services:
     name: fastapi
     runtime: docker
     plan: free
-    repo: https://github.com/Nananina2004/fastapi-boilerplate.git
+    repo: hhttps://github.com/Nananina2004/zyldyzAI-backend.git
     region: frankfurt
     branch: main
     envVars:
