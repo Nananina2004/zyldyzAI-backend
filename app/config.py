@@ -17,7 +17,7 @@ class Config(BaseSettings):
     MONGOHOST: str = "localhost"
     MONGOPORT: str = "27017"
     MONGOUSER: str = "root"
-    MONGOPASSWORD: str = "vtrntg1819"
+    MONGOPASSWORD: str = ""
     MONGODATABASE: str = "fastapi"
     MONGO_URL: str = mongo_url
 
