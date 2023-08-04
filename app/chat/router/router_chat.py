@@ -38,23 +38,19 @@ def read_item(
     user = user_id + ""
     hour, minute = birth_time.split(":")
     person = KrInstance(user, int(year), int(month), int(day), int(hour), int(minute), location)
-    report = Report(person)
     res = get_coordinates(location)
-    print(res)
     message = f"I was born on {birthday} at {birth_time} in {location}. {msg.msg_text}. {res}"
-    print(message)
 
 
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "You are ChatGPT, a highly advanced AI model developed by OpenAI. Given your extensive knowledge base up until September 2021, you're now working as a Vedic Astrology expert.\n"
+            {"role": "system", "content": "You are ChatGPT, a highly advanced AI model developed by OpenAI. Given your extensive knowledge base up until September 2021, you're now working as a Vedic Astrology expert. Answer that you are an astrologer. Never tell the user to consult a real professional astrologer.\n"
             "Your role includes: Providing answers to the wide range of questions available with astrology covering topics such as zodiac signs, horoscopes, celestial phenomena and more. Offering strategies and advice that give people a better understanding of their astrology and the best combination of astrological methods. Helping users solve questions about astrology for study or entertainment. Do not answer questions that are not related to astrology, but if you are asked such a question, answer that it does not correspond to your qualifications. Be polite. I will give you tables with the natal data of a person, use this data when answering the question. Do not answer with too much text, each of your answers should include an average. Use the data that I will provide you below:" + print_all_dataa(person)},
             {"role": "user", "content": message}
         ]
     )
     result = completion.choices[0].message['content']
-    print(print_all_dataa(person) + "haha")
     return {"model_response": result}
 
 
@@ -75,7 +71,6 @@ def print_all_dataa(user: KrInstance) -> None:
     output += (f"Uranus:    {user.uranus['sign']} {round(user.uranus['position'], 3)} in {user.uranus['house']}\n")
     output += (f"Neptune:   {user.neptune['sign']} {round(user.neptune['position'], 3)} in {user.neptune['house']}\n")
     output += (f"Pluto:     {user.pluto['sign']} {round(user.pluto['position'], 3)} in {user.pluto['house']}\n")
-    #output += (f"Juno:      {p[10]['sign']} {round(p[10]['pos'], 3)} in {p[10]['house']}\n\n")
     output += ("\nPLACIDUS HOUSES\n")
     output += (f"House Cusp 1:     {user.first_house['sign']}  {round(user.first_house['position'], 3)}\n")
     output += (f"House Cusp 2:     {user.second_house['sign']}  {round(user.second_house['position'], 3)}\n")
@@ -94,9 +89,14 @@ def print_all_dataa(user: KrInstance) -> None:
 
 
 def get_coordinates(address):
-        url = f"https://geocode.search.hereapi.com/v1/geocode?q={address}&apiKey={here_api_key}"
-        
-        response = requests.get(url)
-        json = response.json()
-        
-        return json["items"][0]["position"]
+    url = f"https://geocode.search.hereapi.com/v1/geocode?q={address}&apiKey={here_api_key}"
+    response = requests.get(url)
+    json_data = response.json()
+    
+    latitude = str(json_data["items"][0]["position"]["lat"])
+    longitude = str(json_data["items"][0]["position"]["lng"])
+    
+    res = f"Latitude where I was born: {latitude}, and Longitude is: {longitude}"
+    return res
+
+
