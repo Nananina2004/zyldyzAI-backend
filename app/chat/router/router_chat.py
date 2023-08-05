@@ -56,8 +56,7 @@ def read_item(
                 "content": message
             }
         ],
-        temperature=0.7,  # Adjust the temperature for randomness vs. determinism
-        max_tokens=150,   # Set the maximum number of tokens in the model response
+        temperature=0.7, 
     )
 
     result = completion.choices[0].message['content']
