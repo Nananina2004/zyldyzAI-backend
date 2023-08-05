@@ -56,7 +56,7 @@ def read_item(
                 "content": message
             }
         ],
-        temperature=0.7, 
+        temperature=0.3, 
     )
 
     result = completion.choices[0].message['content']
